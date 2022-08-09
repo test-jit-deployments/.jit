@@ -1,0 +1,6 @@
+aws:
+- account_id: '121169888995'
+  account_name: jit bandit
+  regions:
+  - us-east-1
+  type: account
