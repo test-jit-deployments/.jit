@@ -9,6 +9,11 @@ aws:
   regions:
   - us-east-1
   type: account
+- account_id: '787945159529'
+  account_name: what an aset
+  regions:
+  - us-east-1
+  type: account
 
 deployment:
   environments:
