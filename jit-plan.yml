@@ -1,6 +1,5 @@
 name: My plan
 level: beginner
-update_id: 329ae0ab-2f1e-49f4-95e5-e4815c23c5ce
 author: Jit
 version: 0.1
 owners:
@@ -10,6 +9,10 @@ references:
 tags: []
 items:
   - name: Scan code for vulnerabilities
-    uses: jitsecurity-controls/jit-plans/items/code/item-code-vulnerability.yml@latest
+    uses: >-
+      jitsecurity-controls/jit-plans/items/code/item-code-vulnerability.yml@latest
   - name: Scan infrastructure for runtime misconfigurations
-    uses: jitsecurity-controls/jit-plans/items/infrastructure/item-runtime-misconfiguration-detection.yml@latest
+    uses: >-
+      jitsecurity-controls/jit-plans/items/infrastructure/item-runtime-misconfiguration-detection.yml@latest
+  - name: Scan code dependencies for vulnerabilities
+    uses: jitsecurity-controls/jit-plans/items/code/item-dependency-check.yml@latest
