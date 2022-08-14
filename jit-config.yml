@@ -4,7 +4,11 @@ aws:
   regions:
   - us-east-1
   type: account
-
+- account_id: '121169888000'
+  account_name: jit asset jit
+  regions:
+  - us-east-1
+  type: account
 
 deployment:
   environments:
