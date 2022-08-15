@@ -12,6 +12,12 @@ aws:
   type: account
   environment: staging
 
+applications:
+- application_name: Jit Platform
+  type: web
+  url: https://platform.jit.io/
+  environment: staging
+
 
 deployment:
   environments:
