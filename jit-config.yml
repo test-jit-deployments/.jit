@@ -5,17 +5,13 @@ aws:
   - us-east-1
   type: account
   environment: staging
-- account_id: '121169888000'
-  account_name: jit asset jit
-  regions:
-  - us-east-1
-  type: account
-- account_id: '453453455345'
-  account_name: what an aferfe
+- account_id: '121169789995'
+  account_name: jit bandit
   regions:
   - us-east-1
   type: account
   environment: staging
+
 
 deployment:
   environments:
