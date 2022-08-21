@@ -11,10 +11,13 @@ items:
   - name: Scan code for vulnerabilities
     uses: >-
       jitsecurity-controls/jit-plans/items/code/item-code-vulnerability.yml@latest
+  - name: Scan code dependencies for vulnerabilities
+    uses: jitsecurity-controls/jit-plans/items/code/item-dependency-check.yml@latest
   - name: Scan infrastructure for runtime misconfigurations
     uses: >-
       jitsecurity-controls/jit-plans/items/infrastructure/item-runtime-misconfiguration-detection.yml@latest
   - name: Scan code for hard-coded secrets
     uses: jitsecurity-controls/jit-plans/items/code/item-secret-detection.yml@latest
-  - name: Scan code dependencies for vulnerabilities
-    uses: jitsecurity-controls/jit-plans/items/code/item-dependency-check.yml@latest
+  - name: Scan container images
+    uses: >-
+      jitsecurity-controls/jit-plans/items/infrastructure/item-container-scan.yml@latest
