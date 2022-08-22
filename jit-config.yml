@@ -5,6 +5,12 @@ aws:
   - us-east-1
   type: account
   environment: staging
+- account_id: '1234567899'
+  account_name: account 2
+  regions:
+  - us-east-1
+  type: account
+  environment: prod
 
 applications: []
 
