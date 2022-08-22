@@ -18,12 +18,12 @@ applications:
   swagger_file_paths:
   - https://api.jit.io
   type: api
-  staging: kakaka
+  staging: zczxczxc
 - application_name: Jit Platform
   type: web
   target_url: https://platform.jit.io/
   authentication: False
-  staging: kakakapapoa
+  staging: dsavbfb
 
 deployment:
   environments:
