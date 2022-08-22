@@ -18,12 +18,18 @@ applications:
   swagger_file_paths:
   - https://api.jit.io
   type: api
-  staging: zczxczxc
+  environment: zczxczxc
+- application_name: Jit cascacsac
+  headers: []
+  swagger_file_paths:
+  - https://api.jit.io
+  type: api
+  environment: acdvf
 - application_name: Jit Platform
   type: web
   target_url: https://platform.jit.io/
   authentication: False
-  staging: dsavbfb
+  environment: dsavbfb
 
 deployment:
   environments:
