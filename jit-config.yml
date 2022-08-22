@@ -21,8 +21,9 @@ applications:
   staging: staging
 - application_name: Jit Platform
   type: web
-  url: https://platform.jit.io/
-  staging: prod
+  target_url: https://platform.jit.io/
+  authentication: False
+  staging: lalala
 
 deployment:
   environments:
