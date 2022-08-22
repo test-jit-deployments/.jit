@@ -11,6 +11,12 @@ aws:
   - us-east-1
   type: account
   environment: staging
+- account_id: '121169789995'
+  account_name: jit bandit
+  regions:
+  - us-east-1
+  type: account
+  environment: staging
 
 applications:
 - application_name: Jit Platform
