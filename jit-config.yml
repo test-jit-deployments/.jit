@@ -12,7 +12,17 @@ aws:
   type: account
   environment: prod
 
-applications: []
+applications:
+- application_name: Jit API
+  headers: []
+  swagger_file_paths:
+  - https://api.jit.io
+  type: api
+  staging: staging
+- application_name: Jit Platform
+  type: web
+  url: https://platform.jit.io/
+  staging: prod
 
 deployment:
   environments:
