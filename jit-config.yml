@@ -18,11 +18,11 @@ applications:
   swagger_file_paths:
   - https://api.jit.io
   type: api
-  environment: cbddd
+  environment: zzzzz
 - application_name: Jity 2
   type: web
   url: https://platform.jit.io/
-  environment: abc
+  environment: zzzzz
 
 deployment:
   environments:
