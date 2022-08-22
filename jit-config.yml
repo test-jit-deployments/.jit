@@ -12,24 +12,7 @@ aws:
   type: account
   environment: prod
 
-applications:
-- application_name: Jit API
-  headers: []
-  swagger_file_paths:
-  - https://api.jit.io
-  type: api
-  environment: zczxczxc
-- application_name: Jit cascacsac
-  headers: []
-  swagger_file_paths:
-  - https://api.jit.io
-  type: api
-  environment: acdvf
-- application_name: Jit Platform
-  type: web
-  target_url: https://platform.jit.io/
-  authentication: False
-  environment: dsavbfb
+applications: []
 
 deployment:
   environments:
