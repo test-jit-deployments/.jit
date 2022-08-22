@@ -12,7 +12,17 @@ aws:
   type: account
   environment: prod
 
-applications: []
+applications:
+- application_name: Jity
+  headers: []
+  swagger_file_paths:
+  - https://api.jit.io
+  type: api
+  environment: cbddd
+- application_name: Jity 2
+  type: web
+  url: https://platform.jit.io/
+  environment: abc
 
 deployment:
   environments:
