@@ -1,4 +1,10 @@
-aws: []
+aws:
+- account_id: '78787878787'
+  account_name: account 1
+  regions:
+  - us-east-1
+  type: account
+  environment: staging
 
 applications: []
 
