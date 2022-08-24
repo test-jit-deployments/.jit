@@ -117,3 +117,17 @@ jobs:
         security_control_args: detect --config /config/gitleaks.toml --source /code -v --report-format json --report-path /tmp/report.json --redact --no-git --exit-code 0
         security_control_output_file: /tmp/report.json
         dispatch_type: workflow
+
+  iac-misconfig-detection:
+    if: contains( fromJSON(github.event.inputs.client_payload).payload.control_ids, '631959a2-0d14-4c10-9971-8af6dce55b99') || fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'iac-misconfig-detection'
+    runs-on: ubuntu-latest
+    steps:
+    - name: cloud-infrastructure-misconfiguration
+      uses: jitsecurity-controls/jit-github-action@v1.6
+      with:
+        docker_user: jit-bot
+        docker_password: ${{fromJSON(github.event.inputs.client_payload).payload.container_registry_token}}
+        security_control: ghcr.io/jitsecurity-controls/control-kics-alpine:latest
+        security_control_args: scan -p /code -o /code/jit-report -f json --exclude-severities INFO,MEDIUM,LOW --disable-secrets
+        security_control_output_file: /code/jit-report/results.json
+        dispatch_type: workflow
