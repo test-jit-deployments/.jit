@@ -30,3 +30,6 @@ items:
   - name: Require MFA for cloud providers
     uses: >-
       jitsecurity-controls/jit-plans/items/third_party_app/item-mfa-cloud-providers.yml@latest
+  - name: Require MFA for SCM
+    uses: >-
+      jitsecurity-controls/jit-plans/items/third_party_app/item-mfa-scm.yml@latest
