@@ -10,7 +10,7 @@ aws:
   regions:
   - us-east-1
   type: account
-  environment: bazoozikopolo
+  environment: ogogogogogog
 
 applications:
 - application_name: Jity
@@ -22,7 +22,7 @@ applications:
 - application_name: Jity 2
   type: web
   url: https://platform.jit.io/
-  environment: etuhytkjjmdv
+  environment: lalalallalalala
 
 deployment:
   environments:
