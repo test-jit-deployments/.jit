@@ -10,7 +10,7 @@ aws:
   regions:
   - us-east-1
   type: account
-  environment: looooki
+  environment: bazoozikopolo
 
 applications:
 - application_name: Jity
