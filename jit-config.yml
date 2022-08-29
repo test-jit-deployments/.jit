@@ -10,7 +10,7 @@ aws:
   regions:
   - us-east-1
   type: account
-  environment: prod
+  environment: makaka
 
 applications:
 - application_name: Jity
