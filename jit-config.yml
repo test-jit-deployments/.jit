@@ -26,7 +26,4 @@ applications:
 
 deployment:
   environments:
-    staging:
-      type: staging
-    production:
-      type: production
+    - staging
