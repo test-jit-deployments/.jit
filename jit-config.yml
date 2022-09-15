@@ -10,7 +10,7 @@ aws:
   regions:
   - us-east-1
   type: account
-  environment: ogogogogogog
+  environment: staging
 
 applications:
 - application_name: Jity
