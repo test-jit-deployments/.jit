@@ -26,4 +26,5 @@ applications:
 
 deployment:
   environments:
-    - staging
+    staging:
+      type: non_production
