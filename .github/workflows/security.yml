@@ -6,18 +6,18 @@ on:
           description: The Client payload
           required: true
 jobs:
-  remediation-pr:
-    if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'remediation-pr'
+  iac-misconfig-detection:
+    if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'iac-misconfig-detection'
     runs-on: ubuntu-20.04
     steps:
-    - name: remediation-pr
+    - name: kics
       uses: jitsecurity-controls/jit-github-action@v1.7
       with:
         docker_user: jit-bot
         docker_password: ${{fromJSON(github.event.inputs.client_payload).payload.container_registry_token}}
-        security_control: ghcr.io/jitsecurity-controls/open-remediation-pr-alpine:latest
-        security_control_args: --github-token ${{fromJSON(github.event.inputs.client_payload).payload.github_token}} --fix-pr-config ${{fromJSON(github.event.inputs.client_payload).payload.fix_pr_config}} --output-file \$REPORT_FILE
-        security_control_output_file: /opt/code/jit-report/results.json
+        security_control: ghcr.io/jitsecurity-controls/control-kics-alpine:latest
+        security_control_args: scan -p \${WORK_DIR:-.} -o \$REPORT_FILE -f json --config \$KICS_CONFIG_FILE_PATH --disable-secrets
+        security_control_output_file: /code/jit-report/results.json
         dispatch_type: workflow
 
   software-component-analysis-js:
@@ -31,34 +31,6 @@ jobs:
         docker_password: ${{fromJSON(github.event.inputs.client_payload).payload.container_registry_token}}
         security_control: ghcr.io/jitsecurity-controls/control-npm-audit-slim:latest
         security_control_args: audit --json --production
-        
-        dispatch_type: workflow
-
-  static-code-analysis-js:
-    if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'static-code-analysis-js'
-    runs-on: ubuntu-20.04
-    steps:
-    - name: semgrep
-      uses: jitsecurity-controls/jit-github-action@v1.7
-      with:
-        docker_user: jit-bot
-        docker_password: ${{fromJSON(github.event.inputs.client_payload).payload.container_registry_token}}
-        security_control: ghcr.io/jitsecurity-controls/control-semgrep-alpine:latest
-        security_control_args: --json --config=/semgrep-config.yml --metrics=off --severity=ERROR \${WORK_DIR:-.}
-        
-        dispatch_type: workflow
-
-  software-component-analysis-go:
-    if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'software-component-analysis-go'
-    runs-on: ubuntu-20.04
-    steps:
-    - name: nancy
-      uses: jitsecurity-controls/jit-github-action@v1.7
-      with:
-        docker_user: jit-bot
-        docker_password: ${{fromJSON(github.event.inputs.client_payload).payload.container_registry_token}}
-        security_control: ghcr.io/jitsecurity-controls/control-nancy-alpine:latest
-        security_control_args: 
         
         dispatch_type: workflow
 
@@ -76,20 +48,6 @@ jobs:
         security_control_output_file: /tmp/report.json
         dispatch_type: workflow
 
-  iac-misconfig-detection:
-    if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'iac-misconfig-detection'
-    runs-on: ubuntu-20.04
-    steps:
-    - name: kics
-      uses: jitsecurity-controls/jit-github-action@v1.7
-      with:
-        docker_user: jit-bot
-        docker_password: ${{fromJSON(github.event.inputs.client_payload).payload.container_registry_token}}
-        security_control: ghcr.io/jitsecurity-controls/control-kics-alpine:latest
-        security_control_args: scan -p \${WORK_DIR:-.} -o \$REPORT_FILE -f json --config \$KICS_CONFIG_FILE_PATH --disable-secrets
-        security_control_output_file: /code/jit-report/results.json
-        dispatch_type: workflow
-
   docker-scan:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'docker-scan'
     runs-on: ubuntu-20.04
@@ -102,6 +60,48 @@ jobs:
         security_control: ghcr.io/jitsecurity-controls/control-trivy-alpine:latest
         security_control_args: --quiet config --severity HIGH,CRITICAL -f json --ignorefile /opt/.trivyignore \${WORK_DIR:-.}
         
+        dispatch_type: workflow
+
+  software-component-analysis-go:
+    if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'software-component-analysis-go'
+    runs-on: ubuntu-20.04
+    steps:
+    - name: nancy
+      uses: jitsecurity-controls/jit-github-action@v1.7
+      with:
+        docker_user: jit-bot
+        docker_password: ${{fromJSON(github.event.inputs.client_payload).payload.container_registry_token}}
+        security_control: ghcr.io/jitsecurity-controls/control-nancy-alpine:latest
+        security_control_args: 
+        
+        dispatch_type: workflow
+
+  remediation-pr:
+    if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'remediation-pr'
+    runs-on: ubuntu-20.04
+    steps:
+    - name: remediation-pr
+      uses: jitsecurity-controls/jit-github-action@v1.7
+      with:
+        docker_user: jit-bot
+        docker_password: ${{fromJSON(github.event.inputs.client_payload).payload.container_registry_token}}
+        security_control: ghcr.io/jitsecurity-controls/open-remediation-pr-alpine:latest
+        security_control_args: --github-token ${{fromJSON(github.event.inputs.client_payload).payload.github_token}} --fix-pr-config ${{fromJSON(github.event.inputs.client_payload).payload.fix_pr_config}} --output-file \$REPORT_FILE
+        security_control_output_file: /opt/code/jit-report/results.json
+        dispatch_type: workflow
+
+  secret-detection:
+    if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'secret-detection'
+    runs-on: ubuntu-20.04
+    steps:
+    - name: gitleaks
+      uses: jitsecurity-controls/jit-github-action@v1.7
+      with:
+        docker_user: jit-bot
+        docker_password: ${{fromJSON(github.event.inputs.client_payload).payload.container_registry_token}}
+        security_control: ghcr.io/jitsecurity-controls/control-gitleaks-alpine:latest
+        security_control_args: detect --config \$GITLEAKS_CONFIG_FILE_PATH --source \${WORK_DIR:-.} -v --report-format json --report-path \$REPORT_FILE --redact --no-git --exit-code 0
+        security_control_output_file: /tmp/report.json
         dispatch_type: workflow
 
   enrich:
@@ -132,20 +132,6 @@ jobs:
         
         dispatch_type: workflow
 
-  secret-detection:
-    if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'secret-detection'
-    runs-on: ubuntu-20.04
-    steps:
-    - name: gitleaks
-      uses: jitsecurity-controls/jit-github-action@v1.7
-      with:
-        docker_user: jit-bot
-        docker_password: ${{fromJSON(github.event.inputs.client_payload).payload.container_registry_token}}
-        security_control: ghcr.io/jitsecurity-controls/control-gitleaks-alpine:latest
-        security_control_args: detect --config \$GITLEAKS_CONFIG_FILE_PATH --source \${WORK_DIR:-.} -v --report-format json --report-path \$REPORT_FILE --redact --no-git --exit-code 0
-        security_control_output_file: /tmp/report.json
-        dispatch_type: workflow
-
   static-code-analysis-python:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'static-code-analysis-python'
     runs-on: ubuntu-20.04
@@ -157,5 +143,19 @@ jobs:
         docker_password: ${{fromJSON(github.event.inputs.client_payload).payload.container_registry_token}}
         security_control: ghcr.io/jitsecurity-controls/control-bandit-slim:latest
         security_control_args: -r \${WORK_DIR:-.} -f json -q -lll -iii
+        
+        dispatch_type: workflow
+
+  static-code-analysis-js:
+    if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'static-code-analysis-js'
+    runs-on: ubuntu-20.04
+    steps:
+    - name: semgrep
+      uses: jitsecurity-controls/jit-github-action@v1.7
+      with:
+        docker_user: jit-bot
+        docker_password: ${{fromJSON(github.event.inputs.client_payload).payload.container_registry_token}}
+        security_control: ghcr.io/jitsecurity-controls/control-semgrep-alpine:latest
+        security_control_args: --json --config=/semgrep-config.yml --metrics=off --severity=ERROR \${WORK_DIR:-.}
         
         dispatch_type: workflow
