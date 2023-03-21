@@ -271,8 +271,8 @@ jobs:
         docker_user: jit-bot
         docker_password: ${{fromJSON(github.event.inputs.client_payload).payload.container_registry_token}}
         
-        security_control: ghcr.io/jitsecurity-controls/control-bandit-slim:main
-        security_control_args: -r \${WORK_DIR:-.} -f json -q -lll -iii
+        security_control: ghcr.io/jitsecurity-controls/control-bandit-slim:latest
+        security_control_args: -r \${WORK_DIR:-.} -f json -q -lll -iii --asset_name ${{fromJSON(github.event.inputs.client_payload).context.asset.asset_name}}
         
         dispatch_type: workflow
         context: ${{toJSON(fromJSON(github.event.inputs.client_payload).context)}}
