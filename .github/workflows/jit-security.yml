@@ -6,8 +6,8 @@ on:
           description: The Client payload
           required: true
 jobs:
-  api-security-detection-txOgb:
-    if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'api-security-detection-txOgb'
+  api-security-detection-JAdSS:
+    if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'api-security-detection-JAdSS'
     runs-on: ubuntu-20.04
     timeout-minutes: 20
     steps:
@@ -25,8 +25,8 @@ jobs:
         context: ${{toJSON(fromJSON(github.event.inputs.client_payload).context)}}
         runner_setup: ${{toJSON(fromJSON(github.event.inputs.client_payload).context.job.runner.setup)}}
 
-  api-security-detection-cgBkp:
-    if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'api-security-detection-cgBkp'
+  api-security-detection-icxhr:
+    if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'api-security-detection-icxhr'
     runs-on: ubuntu-20.04
     timeout-minutes: 20
     steps:
