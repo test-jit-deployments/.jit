@@ -6,6 +6,23 @@ on:
           description: The Client payload
           required: true
 jobs:
+  api-security-detection-workflow-api-security-deployment:
+    if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'api-security-detection' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-api-security-deployment'
+    runs-on: ubuntu-20.04
+    timeout-minutes: 20
+    steps:
+    - name: 
+      uses: jitsecurity-controls/jit-github-action@v2.5
+      with:
+        docker_user: jit-bot
+        docker_password: ${{fromJSON(github.event.inputs.client_payload).payload.container_registry_token}}
+        security_control: 899025839375.dkr.ecr.us-east-1.amazonaws.com/zap:latest
+        security_control_args: --scan_mode api --authentication_mode ${{fromJSON(github.event.inputs.client_payload).context.asset.authentication_mode }} --target_url ${{fromJSON(github.event.inputs.client_payload).context.asset.target_url }} --exclude_paths ${{fromJSON(github.event.inputs.client_payload).context.asset.exclude_paths }} --api_domain ${{fromJSON(github.event.inputs.client_payload).context.asset.api_domain }} --login_url ${{fromJSON(github.event.inputs.client_payload).context.asset.login_page_url }} --username ${{fromJSON(github.event.inputs.client_payload).context.asset.username }} --username_selector ${{fromJSON(github.event.inputs.client_payload).context.asset.username_css_selector }} --password_selector ${{fromJSON(github.event.inputs.client_payload).context.asset.password_css_selector }} --rule_set_path rule_sets/deployment-api.yml
+
+        dispatch_type: workflow
+        context: ${{toJSON(fromJSON(github.event.inputs.client_payload).context)}}
+        runner_setup: ${{toJSON(fromJSON(github.event.inputs.client_payload).context.job.runner.setup)}}
+
   api-security-detection-workflow-api-security:
     if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'api-security-detection' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-api-security'
     runs-on: ubuntu-20.04
@@ -20,23 +37,6 @@ jobs:
         security_control_args: --scan_mode api --authentication_mode ${{fromJSON(github.event.inputs.client_payload).context.asset.authentication_mode }} --target_url ${{fromJSON(github.event.inputs.client_payload).context.asset.target_url }} --exclude_paths ${{fromJSON(github.event.inputs.client_payload).context.asset.exclude_paths }} --api_domain ${{fromJSON(github.event.inputs.client_payload).context.asset.api_domain }} --login_url ${{fromJSON(github.event.inputs.client_payload).context.asset.login_page_url }} --username ${{fromJSON(github.event.inputs.client_payload).context.asset.username }} --username_selector ${{fromJSON(github.event.inputs.client_payload).context.asset.username_css_selector }} --password_selector ${{fromJSON(github.event.inputs.client_payload).context.asset.password_css_selector }} --rule_set_path rule_sets/comprehensive-api.yml
 
         env: -e PASSWORD ${{ secrets.ZAP_PASSWORD }}
-        dispatch_type: workflow
-        context: ${{toJSON(fromJSON(github.event.inputs.client_payload).context)}}
-        runner_setup: ${{toJSON(fromJSON(github.event.inputs.client_payload).context.job.runner.setup)}}
-
-  api-security-detection-workflow-api-security-deployment:
-    if: fromJSON(github.event.inputs.client_payload).payload.workflow_job_name == 'api-security-detection' && fromJSON(github.event.inputs.client_payload).payload.workflow_slug == 'workflow-api-security-deployment'
-    runs-on: ubuntu-20.04
-    timeout-minutes: 20
-    steps:
-    - name: 
-      uses: jitsecurity-controls/jit-github-action@v2.5
-      with:
-        docker_user: jit-bot
-        docker_password: ${{fromJSON(github.event.inputs.client_payload).payload.container_registry_token}}
-        security_control: 899025839375.dkr.ecr.us-east-1.amazonaws.com/zap:latest
-        security_control_args: --scan_mode api --authentication_mode ${{fromJSON(github.event.inputs.client_payload).context.asset.authentication_mode }} --target_url ${{fromJSON(github.event.inputs.client_payload).context.asset.target_url }} --exclude_paths ${{fromJSON(github.event.inputs.client_payload).context.asset.exclude_paths }} --api_domain ${{fromJSON(github.event.inputs.client_payload).context.asset.api_domain }} --login_url ${{fromJSON(github.event.inputs.client_payload).context.asset.login_page_url }} --username ${{fromJSON(github.event.inputs.client_payload).context.asset.username }} --username_selector ${{fromJSON(github.event.inputs.client_payload).context.asset.username_css_selector }} --password_selector ${{fromJSON(github.event.inputs.client_payload).context.asset.password_css_selector }} --rule_set_path rule_sets/deployment-api.yml
-
         dispatch_type: workflow
         context: ${{toJSON(fromJSON(github.event.inputs.client_payload).context)}}
         runner_setup: ${{toJSON(fromJSON(github.event.inputs.client_payload).context.job.runner.setup)}}
